@@ -6,6 +6,7 @@
 //  Copyright © 2019 Daniel Duan. All rights reserved.
 //
 
+// ARKIT
 import UIKit
 import SceneKit
 import ARKit
@@ -15,13 +16,13 @@ import CoreML
 import Vision
 
 class ViewController: UIViewController, ARSCNViewDelegate {
-
+    
     @IBOutlet var sceneView: ARSCNView!
     
-    // COREML
+    // CoreML variables
+    var mostAccurateResult = ""
     let serialQueue = DispatchQueue(label: "serialQueue")
     var requests = [VNRequest]()
-    var mostAccurateResult = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,33 +50,32 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
     }
     
+    //MARK: - CoreML + Vision Methods
+    
     func classificationCompletionHandler(request: VNRequest, error: Error?) {
         // Error present
         if error != nil {
-            print("Error here")
             return
         }
         guard let results = request.results else {
-            print("No results")
             return
         }
         
-        let predictions = results[0...4]
+        let predictions = results[0...1]
             .flatMap({ $0 as? VNClassificationObservation })
-            .map({ "\($0.identifier)" })
+            .map({ "\($0.identifier) \(String(format:"- %.2f", $0.confidence))" })
             .joined(separator: "\n")
         
+        // store the most accurate result
         DispatchQueue.main.async {
-            
-            // Store the top prediction
-            var object = predictions.components(separatedBy: ",")[0]
+            var object = predictions.components(separatedBy: "-")[0]
             object = object.components(separatedBy: ",")[0]
             self.mostAccurateResult = object
-            print(self.mostAccurateResult)
         }
-    
+        
     }
     
+    // continuously update CoreML
     func coreMLLoop() {
         serialQueue.async {
             self.updateML()
@@ -87,7 +87,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         guard let pixelBuffer: CVPixelBuffer? = (sceneView.session.currentFrame?.capturedImage) else {
             return
         }
-
+        
         let ciimage = CIImage(cvPixelBuffer: pixelBuffer!)
         let handler = VNImageRequestHandler(ciImage: ciimage, options: [:])
         do {
@@ -96,6 +96,49 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             print(error)
         }
     }
+    
+    //MARK: - AR Methods
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // First remove all nodes from parent node
+        
+        if let touchLocation = touches.first?.location(in: sceneView) {
+            
+            let results = sceneView.hitTest(touchLocation, types: .featurePoint)
+            
+            if let hitResult = results.first {
+                create3DText(at: hitResult)
+            }
+            
+        }
+    }
+    
+    func create3DText(at hitResult: ARHitTestResult) {
+        let textGeometry = SCNText(string: mostAccurateResult, extrusionDepth: 0.1)
+        textGeometry.firstMaterial?.diffuse.contents = UIColor.blue
+        let (minBound, maxBound) = textGeometry.boundingBox
+
+
+        let textNode = SCNNode(geometry: textGeometry)
+        textNode.pivot = SCNMatrix4MakeTranslation( (maxBound.x - minBound.x)/2, minBound.y, Float(textGeometry.extrusionDepth/2))
+
+        
+        textNode.position = SCNVector3(
+            hitResult.worldTransform.columns.3.x,
+            hitResult.worldTransform.columns.3.y,
+            hitResult.worldTransform.columns.3.z
+        )
+        textNode.scale = SCNVector3(0.002, 0.002, 0.002)
+        
+        let billboardConstraint = SCNBillboardConstraint()
+        billboardConstraint.freeAxes = SCNBillboardAxis.Z
+        
+        sceneView.scene.rootNode.constraints = [billboardConstraint]
+        
+        sceneView.scene.rootNode.addChildNode(textNode)
+    }
+    
+    //MARK: - Setup methods
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
