@@ -15,7 +15,7 @@ import ARKit
 import CoreML
 import Vision
 
-class ViewController: UIViewController, ARSCNViewDelegate {
+class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet var sceneView: ARSCNView!
     
@@ -100,14 +100,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     //MARK: - AR Methods
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // First remove all nodes from parent node
-        
+        //TODO: Refactor Code
         if let touchLocation = touches.first?.location(in: sceneView) {
             
             let results = sceneView.hitTest(touchLocation, types: .featurePoint)
             
             if let hitResult = results.first {
                 create3DText(at: hitResult)
+                print(mostAccurateResult)
+                performSegue(withIdentifier: "presentPopUp", sender: self)
             }
             
         }
@@ -121,7 +122,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
         let textNode = SCNNode(geometry: textGeometry)
         textNode.pivot = SCNMatrix4MakeTranslation( (maxBound.x - minBound.x)/2, minBound.y, Float(textGeometry.extrusionDepth/2))
-
+        //TODO: Make 3D Text easier to read
         
         textNode.position = SCNVector3(
             hitResult.worldTransform.columns.3.x,
@@ -130,10 +131,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         )
         textNode.scale = SCNVector3(0.002, 0.002, 0.002)
         
-        let billboardConstraint = SCNBillboardConstraint()
-        billboardConstraint.freeAxes = SCNBillboardAxis.Z
-        
-        sceneView.scene.rootNode.constraints = [billboardConstraint]
+//        let billboardConstraint = SCNBillboardConstraint()
+//        billboardConstraint.freeAxes = SCNBillboardAxis.Z
+//
+//        sceneView.scene.rootNode.constraints = [billboardConstraint]
         
         sceneView.scene.rootNode.addChildNode(textNode)
     }
