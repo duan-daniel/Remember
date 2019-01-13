@@ -13,6 +13,7 @@ class PopUpViewController: UIViewController {
     //TODO: Fix Design
     //TODO: Disable User interaction on ARView
     
+    
     @IBOutlet weak var popUpView: UIView!
     @IBOutlet weak var textLabel: UILabel!
     @IBOutlet weak var dismissButton: UIButton!
