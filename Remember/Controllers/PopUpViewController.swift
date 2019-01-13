@@ -10,27 +10,41 @@ import UIKit
 
 class PopUpViewController: UIViewController {
 
-    @IBOutlet weak var textField: UITextView!
+    //TODO: Fix Design
+    //TODO: Disable User interaction on ARView
+    
     @IBOutlet weak var popUpView: UIView!
+    @IBOutlet weak var textLabel: UILabel!
+    @IBOutlet weak var dismissButton: UIButton!
+    @IBOutlet weak var takePhotoButton: UIButton!
+    
+    var textToDisplay = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // gives the popup rounded corners
-        popUpView.layer.cornerRadius = 10
+        popUpView.layer.cornerRadius = 20
         popUpView.layer.masksToBounds = true
+        
+        takePhotoButton.layer.cornerRadius = 7
+        dismissButton.layer.cornerRadius = 7
+        
+        textLabel.text = textToDisplay
+        textLabel.adjustsFontSizeToFitWidth = true
+        textLabel.minimumScaleFactor = 0.2
+        
     }
-    
     
     @IBAction func takePhotoButtonPressed(_ sender: UIButton) {
         
     }
     
-    
     @IBAction func dismissButtonPressed(_ sender: UIButton) {
-        
+        self.dismiss(animated: true, completion: nil)
     }
     
+
     
 
     /*

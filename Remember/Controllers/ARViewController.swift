@@ -107,7 +107,8 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
             
             if let hitResult = results.first {
                 create3DText(at: hitResult)
-                print(mostAccurateResult)
+                
+                // PopUpViewController
                 performSegue(withIdentifier: "presentPopUp", sender: self)
             }
             
@@ -152,12 +153,20 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         //TODO: Alert the user that their phone cannot support a true AR experience.
         
     }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Pause the view's session
         sceneView.session.pause()
+    }
+    
+    //MARK: - Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "presentPopUp" {
+            if let popUpViewController = segue.destination as? PopUpViewController {
+                popUpViewController.textToDisplay = "Take a photo of the \(mostAccurateResult) and save it to your list of memories?"
+            }
+        }
     }
     
 }
