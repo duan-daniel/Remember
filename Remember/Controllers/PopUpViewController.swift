@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PopUpViewController: UIViewController {
+class PopUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     //TODO: Fix Design
     //TODO: Disable User interaction on ARView
@@ -19,7 +19,9 @@ class PopUpViewController: UIViewController {
     @IBOutlet weak var dismissButton: UIButton!
     @IBOutlet weak var takePhotoButton: UIButton!
     
+    let imagePicker = UIImagePickerController()
     var textToDisplay = ""
+    var object = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,13 +37,28 @@ class PopUpViewController: UIViewController {
         textLabel.adjustsFontSizeToFitWidth = true
         textLabel.minimumScaleFactor = 0.2
         
+        imagePicker.delegate = self
+        imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = false
+        
     }
     
     @IBAction func takePhotoButtonPressed(_ sender: UIButton) {
+        print("takePhotoButtonPressed")
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // called when user presses "Use Photo"
+        if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            let memory = Memory(objectName: object, imageOfObject: userPickedImage)
+        }
+        imagePicker.dismiss(animated: true, completion: nil)
         
     }
     
     @IBAction func dismissButtonPressed(_ sender: UIButton) {
+        
         self.dismiss(animated: true, completion: nil)
     }
     

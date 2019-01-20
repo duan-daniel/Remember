@@ -106,8 +106,12 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
             let results = sceneView.hitTest(touchLocation, types: .featurePoint)
             
             if let hitResult = results.first {
-                create3DText(at: hitResult)
+                // delete all previous nodes before creating the new textNode
+                sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
+                    node.removeFromParentNode()
+                }
                 
+                create3DText(at: hitResult)
                 // PopUpViewController
                 performSegue(withIdentifier: "presentPopUp", sender: self)
             }
@@ -165,6 +169,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         if segue.identifier == "presentPopUp" {
             if let popUpViewController = segue.destination as? PopUpViewController {
                 popUpViewController.textToDisplay = "Take a photo of the \(mostAccurateResult) and save it to your list of memories?"
+                popUpViewController.object = mostAccurateResult
             }
         }
     }
