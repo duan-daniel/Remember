@@ -6,5 +6,6 @@ target 'Remember' do
 
   # Pods for Remember
     pod 'SCLAlertView'
+    pod 'ChameleonFramework'
 
 end

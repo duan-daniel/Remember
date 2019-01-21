@@ -18,6 +18,9 @@ import Vision
 // SCLALERTVIEW
 import SCLAlertView
 
+//CHAMELEON FRAMEWORK
+import ChameleonFramework
+
 class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet var sceneView: ARSCNView!
@@ -32,36 +35,29 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Set the view's delegate
+        // SCENE
         sceneView.delegate = self
-        
-        // Create a new scene
         let scene = SCNScene()
-        
-        // Set the scene to the view
         sceneView.scene = scene
-        
         sceneView.autoenablesDefaultLighting = true
         
+        //IMAGE PICKER
         imagePicker.delegate = self
         imagePicker.sourceType = .camera
         imagePicker.allowsEditing = false
         
-        // Vision Model
+        // VISION
         guard let model = try? VNCoreMLModel(for: Inceptionv3().model) else {
             fatalError("Loading Core ML Model Failed.")
         }
-        // Vision-CoreML Request
         let request = VNCoreMLRequest(model: model, completionHandler: classificationCompletionHandler)
         request.imageCropAndScaleOption = VNImageCropAndScaleOption.centerCrop
         requests = [request]
         coreMLLoop()
         
-        
     }
     
-    //MARK: - CoreML + Vision Methods
-    
+    //MARK: - COREML/VISION METHODS
     func classificationCompletionHandler(request: VNRequest, error: Error?) {
         // Error present
         if error != nil {
@@ -85,7 +81,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         
     }
     
-    // continuously update CoreML
+    // continuously update CoreMl
     func coreMLLoop() {
         serialQueue.async {
             self.updateML()
@@ -107,22 +103,17 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         }
     }
     
-    //MARK: - AR Methods
+    //MARK: - ARKIT METHODS
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        //TODO: Refactor Code
         if let touchLocation = touches.first?.location(in: sceneView) {
             
             let results = sceneView.hitTest(touchLocation, types: .featurePoint)
             
             if let hitResult = results.first {
                 // delete all previous nodes before creating the new textNode
-                sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
-                    node.removeFromParentNode()
-                }
-                
                 create3DText(at: hitResult)
-                // alert view
+                // create the alert pop up
                 createAlertView()
             }
             
@@ -130,31 +121,41 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
     }
     
     func create3DText(at hitResult: ARHitTestResult) {
-        let textGeometry = SCNText(string: mostAccurateResult, extrusionDepth: 0.1)
-        textGeometry.firstMaterial?.diffuse.contents = UIColor.blue
+        
+        // CONSTRAINTS
+        let billboardConstraint = SCNBillboardConstraint()
+        billboardConstraint.freeAxes = SCNBillboardAxis.Y
+        
+        // TEXT GEOMETRY
+        let textGeometry = SCNText(string: mostAccurateResult, extrusionDepth: 0.01)
+        var font = UIFont(name: "Futura", size: 0.15)
+        // font = font?.bold()
+        textGeometry.font = font
+        textGeometry.alignmentMode = CATextLayerAlignmentMode.center.rawValue
+        textGeometry.firstMaterial?.diffuse.contents = UIColor.flatSkyBlue()
+        textGeometry.firstMaterial?.isDoubleSided = true
+        
+        
+        // NODE
         let (minBound, maxBound) = textGeometry.boundingBox
-
-
         let textNode = SCNNode(geometry: textGeometry)
         textNode.pivot = SCNMatrix4MakeTranslation( (maxBound.x - minBound.x)/2, minBound.y, Float(textGeometry.extrusionDepth/2))
-        //TODO: Make 3D Text easier to read
+        textNode.scale = SCNVector3(0.2, 0.2, 0.2)
         
-        textNode.position = SCNVector3(
+        // PARENT NODE
+        let textNodeParent = SCNNode()
+        textNodeParent.addChildNode(textNode)
+        textNodeParent.constraints = [billboardConstraint]
+        
+        sceneView.scene.rootNode.addChildNode(textNodeParent)
+        textNodeParent.position = SCNVector3(
             hitResult.worldTransform.columns.3.x,
             hitResult.worldTransform.columns.3.y,
             hitResult.worldTransform.columns.3.z
         )
-        textNode.scale = SCNVector3(0.002, 0.002, 0.002)
-        
-//        let billboardConstraint = SCNBillboardConstraint()
-//        billboardConstraint.freeAxes = SCNBillboardAxis.Z
-//
-//        sceneView.scene.rootNode.constraints = [billboardConstraint]
-        
-        sceneView.scene.rootNode.addChildNode(textNode)
     }
     
-    //MARK: - Create Pop Up
+    //MARK: - SCLALERTVIEW FUNCTIONALITY
     func createAlertView() {
         let apperance = SCLAlertView.SCLAppearance(
             kDefaultShadowOpacity: 0.2,
@@ -169,7 +170,20 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         alert.showInfo(mostAccurateResult, subTitle: "Take a photo of the \(mostAccurateResult) and save it to your list of memories?", circleIconImage: alertViewIcon)
     }
     
-    //MARK: - Setup methods
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // called when user presses "Use Photo"
+        if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            print("picked image")
+        }
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
+    //MARK: - SEGUE
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+    }
+    
+    //MARK: - SETUP METHODS
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -183,25 +197,11 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        // called when user presses "Use Photo"
-        if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            print("picked image")
-        }
-        imagePicker.dismiss(animated: true, completion: nil)
-    }
-    
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Pause the view's session
         sceneView.session.pause()
-    }
-    
-    //MARK: - Segue
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
     }
     
 }
