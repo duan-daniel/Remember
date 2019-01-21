@@ -189,7 +189,6 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
             print("picked image")
         }
         imagePicker.dismiss(animated: true, completion: nil)
-        
     }
     
     
@@ -201,13 +200,8 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
     }
     
     //MARK: - Segue
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "presentPopUp" {
-//            if let popUpViewController = segue.destination as? PopUpViewController {
-//                popUpViewController.textToDisplay = "Take a photo of the \(mostAccurateResult) and save it to your list of memories?"
-//                popUpViewController.object = mostAccurateResult
-//            }
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+    }
     
 }
