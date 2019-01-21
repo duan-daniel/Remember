@@ -15,6 +15,9 @@ import ARKit
 import CoreML
 import Vision
 
+// SCLALERTVIEW
+import SCLAlertView
+
 class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet var sceneView: ARSCNView!
@@ -23,6 +26,8 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
     var mostAccurateResult = ""
     let serialQueue = DispatchQueue(label: "serialQueue")
     var requests = [VNRequest]()
+    
+    let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +43,10 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         
         sceneView.autoenablesDefaultLighting = true
         
+        imagePicker.delegate = self
+        imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = false
+        
         // Vision Model
         guard let model = try? VNCoreMLModel(for: Inceptionv3().model) else {
             fatalError("Loading Core ML Model Failed.")
@@ -47,6 +56,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         request.imageCropAndScaleOption = VNImageCropAndScaleOption.centerCrop
         requests = [request]
         coreMLLoop()
+        
         
     }
     
@@ -112,8 +122,8 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
                 }
                 
                 create3DText(at: hitResult)
-                // PopUpViewController
-                performSegue(withIdentifier: "presentPopUp", sender: self)
+                // alert view
+                createAlertView()
             }
             
         }
@@ -144,6 +154,21 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         sceneView.scene.rootNode.addChildNode(textNode)
     }
     
+    //MARK: - Create Pop Up
+    func createAlertView() {
+        let apperance = SCLAlertView.SCLAppearance(
+            kDefaultShadowOpacity: 0.2,
+            showCloseButton: true,
+            showCircularIcon: true
+        )
+        let alert = SCLAlertView(appearance: apperance)
+        let alertViewIcon = UIImage(named: "camera_icon")
+        alert.addButton("Take Photo") {
+            self.present(self.imagePicker, animated: true, completion: nil)
+        }
+        alert.showInfo(mostAccurateResult, subTitle: "Take a photo of the \(mostAccurateResult) and save it to your list of memories?", circleIconImage: alertViewIcon)
+    }
+    
     //MARK: - Setup methods
     
     override func viewWillAppear(_ animated: Bool) {
@@ -157,6 +182,17 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         //TODO: Alert the user that their phone cannot support a true AR experience.
         
     }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // called when user presses "Use Photo"
+        if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            print("picked image")
+        }
+        imagePicker.dismiss(animated: true, completion: nil)
+        
+    }
+    
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -165,13 +201,13 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
     }
     
     //MARK: - Segue
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "presentPopUp" {
-            if let popUpViewController = segue.destination as? PopUpViewController {
-                popUpViewController.textToDisplay = "Take a photo of the \(mostAccurateResult) and save it to your list of memories?"
-                popUpViewController.object = mostAccurateResult
-            }
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "presentPopUp" {
+//            if let popUpViewController = segue.destination as? PopUpViewController {
+//                popUpViewController.textToDisplay = "Take a photo of the \(mostAccurateResult) and save it to your list of memories?"
+//                popUpViewController.object = mostAccurateResult
+//            }
+//        }
+//    }
     
 }

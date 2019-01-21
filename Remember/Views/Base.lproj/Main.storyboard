@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -35,7 +34,6 @@
                     <tabBarItem key="tabBarItem" title="AR" image="ar_icon" id="b8U-EY-czC"/>
                     <connections>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
-                        <segue destination="j0U-y4-jJ2" kind="presentation" identifier="presentPopUp" id="x1W-r8-xHg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
@@ -88,92 +86,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xin-bd-jow" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-703" y="133"/>
-        </scene>
-        <!--Pop Up View Controller-->
-        <scene sceneID="9WH-YD-FY4">
-            <objects>
-                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="j0U-y4-jJ2" customClass="PopUpViewController" customModule="Remember" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="sCN-jt-OKs">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vv5-BG-G3l">
-                                <rect key="frame" x="10" y="600" width="355" height="37"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="6qV-8h-4Cz">
-                                        <rect key="frame" x="5" y="5" width="345" height="27"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take a photo of the computer keyboard and save it to your list of memories?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="92e-fU-iEm">
-                                                <rect key="frame" x="0.0" y="0.0" width="345" height="11"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="BTh-Xa-Q2R">
-                                                <rect key="frame" x="0.0" y="16" width="345" height="11"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UEq-d2-miK">
-                                                        <rect key="frame" x="0.0" y="0.0" width="168.5" height="11"/>
-                                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <state key="normal" title="Dismiss"/>
-                                                        <connections>
-                                                            <action selector="dismissButtonPressed:" destination="j0U-y4-jJ2" eventType="touchUpInside" id="6hl-Ha-heh"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8uf-P5-G43">
-                                                        <rect key="frame" x="176.5" y="0.0" width="168.5" height="11"/>
-                                                        <color key="backgroundColor" red="0.20426025986671448" green="0.46902221441268921" blue="0.96475917100906372" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <state key="normal" title="Take Photo"/>
-                                                        <connections>
-                                                            <action selector="takePhotoButtonPressed:" destination="j0U-y4-jJ2" eventType="touchUpInside" id="Bvh-vu-Z0q"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="UEq-d2-miK" firstAttribute="height" secondItem="8uf-P5-G43" secondAttribute="height" id="A8B-qe-MOT"/>
-                                                    <constraint firstItem="UEq-d2-miK" firstAttribute="width" secondItem="8uf-P5-G43" secondAttribute="width" id="egk-hV-dV1"/>
-                                                </constraints>
-                                            </stackView>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="92e-fU-iEm" firstAttribute="centerX" secondItem="6qV-8h-4Cz" secondAttribute="centerX" id="Joc-Dj-Fhs"/>
-                                            <constraint firstAttribute="bottom" secondItem="BTh-Xa-Q2R" secondAttribute="bottom" id="VMG-Tv-WS7"/>
-                                            <constraint firstItem="BTh-Xa-Q2R" firstAttribute="centerX" secondItem="6qV-8h-4Cz" secondAttribute="centerX" id="aLe-eZ-CUw"/>
-                                        </constraints>
-                                    </stackView>
-                                </subviews>
-                                <color key="backgroundColor" red="0.89654848705301626" green="0.89654848705301626" blue="0.89654848705301626" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstItem="6qV-8h-4Cz" firstAttribute="leading" secondItem="vv5-BG-G3l" secondAttribute="leading" constant="5" id="7HA-7a-mdb"/>
-                                    <constraint firstItem="6qV-8h-4Cz" firstAttribute="top" secondItem="vv5-BG-G3l" secondAttribute="top" constant="5" id="8WZ-i8-A74"/>
-                                    <constraint firstAttribute="bottom" secondItem="6qV-8h-4Cz" secondAttribute="bottom" constant="5" id="ern-Uf-vt9"/>
-                                    <constraint firstAttribute="trailing" secondItem="6qV-8h-4Cz" secondAttribute="trailing" constant="5" id="rNY-Y5-ycX"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="RWj-lo-F1E" firstAttribute="trailing" secondItem="vv5-BG-G3l" secondAttribute="trailing" constant="10" id="90H-RS-DoR"/>
-                            <constraint firstItem="RWj-lo-F1E" firstAttribute="bottom" secondItem="vv5-BG-G3l" secondAttribute="bottom" constant="30" id="LxZ-hR-svg"/>
-                            <constraint firstItem="vv5-BG-G3l" firstAttribute="top" secondItem="RWj-lo-F1E" secondAttribute="top" constant="580" id="adS-kx-vWm"/>
-                            <constraint firstItem="vv5-BG-G3l" firstAttribute="leading" secondItem="RWj-lo-F1E" secondAttribute="leading" constant="10" id="zwB-4e-0cQ"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="RWj-lo-F1E"/>
-                    </view>
-                    <connections>
-                        <outlet property="dismissButton" destination="UEq-d2-miK" id="1xy-kZ-pxL"/>
-                        <outlet property="popUpView" destination="vv5-BG-G3l" id="AdU-9c-Cvi"/>
-                        <outlet property="takePhotoButton" destination="8uf-P5-G43" id="VMV-ch-BrP"/>
-                        <outlet property="textLabel" destination="92e-fU-iEm" id="qmM-t7-8fN"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NHO-my-MDi" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1037.5999999999999" y="132.68365817091455"/>
         </scene>
     </scenes>
     <resources>

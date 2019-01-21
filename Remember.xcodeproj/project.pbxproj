@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		88BE2E6F04064649A5547F44 /* Pods_Remember.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF8893B2BC467E11A0E6CA1 /* Pods_Remember.framework */; };
 		A453ED1D21ED9ED400C40662 /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A453ED1C21ED9ED400C40662 /* Memory.swift */; };
 		A492DD9721E469A4005C45D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A492DD9621E469A4005C45D6 /* AppDelegate.swift */; };
 		A492DD9921E469A4005C45D6 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = A492DD9821E469A4005C45D6 /* art.scnassets */; };
@@ -15,11 +16,11 @@
 		A492DDA021E469A6005C45D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A492DD9F21E469A6005C45D6 /* Assets.xcassets */; };
 		A492DDA321E469A6005C45D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A492DDA121E469A6005C45D6 /* LaunchScreen.storyboard */; };
 		A4AFD00721F4419F00439CDD /* MemoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4AFD00621F4419F00439CDD /* MemoriesViewController.swift */; };
-		A4D14FA421E9B614009D3F71 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D14FA321E9B614009D3F71 /* PopUpViewController.swift */; };
 		A4F2E20A21E4711A00B09FDB /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = A4F2E20921E4711900B09FDB /* Inceptionv3.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		74F3501E512834770061ED49 /* Pods-Remember.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Remember.release.xcconfig"; path = "Pods/Target Support Files/Pods-Remember/Pods-Remember.release.xcconfig"; sourceTree = "<group>"; };
 		A453ED1C21ED9ED400C40662 /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		A492DD9321E469A4005C45D6 /* Remember.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Remember.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A492DD9621E469A4005C45D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -30,8 +31,9 @@
 		A492DDA221E469A6005C45D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A492DDA421E469A6005C45D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A4AFD00621F4419F00439CDD /* MemoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesViewController.swift; sourceTree = "<group>"; };
-		A4D14FA321E9B614009D3F71 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 		A4F2E20921E4711900B09FDB /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
+		CEC4D445D2E64E00DFA4F3AF /* Pods-Remember.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Remember.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Remember/Pods-Remember.debug.xcconfig"; sourceTree = "<group>"; };
+		EFF8893B2BC467E11A0E6CA1 /* Pods_Remember.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Remember.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,17 +41,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88BE2E6F04064649A5547F44 /* Pods_Remember.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2CDD23A388E4C67E3EF55C80 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EFF8893B2BC467E11A0E6CA1 /* Pods_Remember.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A492DD8A21E469A4005C45D6 = {
 			isa = PBXGroup;
 			children = (
 				A492DD9521E469A4005C45D6 /* Remember */,
 				A492DD9421E469A4005C45D6 /* Products */,
+				B288C635B3D9E3621606CE67 /* Pods */,
+				2CDD23A388E4C67E3EF55C80 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,7 +110,6 @@
 			isa = PBXGroup;
 			children = (
 				A492DD9A21E469A4005C45D6 /* ARViewController.swift */,
-				A4D14FA321E9B614009D3F71 /* PopUpViewController.swift */,
 				A4AFD00621F4419F00439CDD /* MemoriesViewController.swift */,
 			);
 			path = Controllers;
@@ -111,6 +123,15 @@
 			path = "Data Models";
 			sourceTree = "<group>";
 		};
+		B288C635B3D9E3621606CE67 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CEC4D445D2E64E00DFA4F3AF /* Pods-Remember.debug.xcconfig */,
+				74F3501E512834770061ED49 /* Pods-Remember.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -118,9 +139,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A492DDA721E469A6005C45D6 /* Build configuration list for PBXNativeTarget "Remember" */;
 			buildPhases = (
+				D1043309E1677C14C9FEA1D5 /* [CP] Check Pods Manifest.lock */,
 				A492DD8F21E469A4005C45D6 /* Sources */,
 				A492DD9021E469A4005C45D6 /* Frameworks */,
 				A492DD9121E469A4005C45D6 /* Resources */,
+				37652BFAD7B1A6688568099D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -178,6 +201,53 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		37652BFAD7B1A6688568099D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Remember/Pods-Remember-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SCLAlertView/SCLAlertView.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCLAlertView.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Remember/Pods-Remember-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D1043309E1677C14C9FEA1D5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Remember-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A492DD8F21E469A4005C45D6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -188,7 +258,6 @@
 				A492DD9721E469A4005C45D6 /* AppDelegate.swift in Sources */,
 				A4AFD00721F4419F00439CDD /* MemoriesViewController.swift in Sources */,
 				A453ED1D21ED9ED400C40662 /* Memory.swift in Sources */,
-				A4D14FA421E9B614009D3F71 /* PopUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +401,7 @@
 		};
 		A492DDA821E469A6005C45D6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CEC4D445D2E64E00DFA4F3AF /* Pods-Remember.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -350,6 +420,7 @@
 		};
 		A492DDA921E469A6005C45D6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 74F3501E512834770061ED49 /* Pods-Remember.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

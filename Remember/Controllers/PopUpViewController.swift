@@ -54,6 +54,7 @@ class PopUpViewController: UIViewController, UIImagePickerControllerDelegate, UI
             let memory = Memory(objectName: object, imageOfObject: userPickedImage)
         }
         imagePicker.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
     }
     
