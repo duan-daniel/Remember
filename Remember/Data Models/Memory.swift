@@ -15,6 +15,6 @@ class Memory {
     
     init(objectName: String, imageOfObject: UIImage) {
         self.objectName = objectName
-        self.imageOfObject = imageOfObject
+        self.image = imageOfObject
     }
 }
