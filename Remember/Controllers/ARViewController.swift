@@ -18,9 +18,6 @@ import Vision
 // SCLALERTVIEW
 import SCLAlertView
 
-//CHAMELEON FRAMEWORK
-import ChameleonFramework
-
 class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet var sceneView: ARSCNView!
@@ -132,7 +129,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         // font = font?.bold()
         textGeometry.font = font
         textGeometry.alignmentMode = CATextLayerAlignmentMode.center.rawValue
-        textGeometry.firstMaterial?.diffuse.contents = UIColor.flatSkyBlue()
+        textGeometry.firstMaterial?.diffuse.contents = #colorLiteral(red: 0.4549019608, green: 0.7490196078, blue: 0.8392156863, alpha: 1)
         textGeometry.firstMaterial?.isDoubleSided = true
         
         
@@ -159,7 +156,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
     func createAlertView() {
         let apperance = SCLAlertView.SCLAppearance(
             kDefaultShadowOpacity: 0.2,
-            showCloseButton: true,
+            showCloseButton: false,
             showCircularIcon: true
         )
         let alert = SCLAlertView(appearance: apperance)
@@ -167,13 +164,22 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         alert.addButton("Take Photo") {
             self.present(self.imagePicker, animated: true, completion: nil)
         }
-        alert.showInfo(mostAccurateResult, subTitle: "Take a photo of the \(mostAccurateResult) and save it to your list of memories?", circleIconImage: alertViewIcon)
+        alert.addButton("Cancel") {
+            print("cancel button tapped")
+        }
+        alert.showInfo(mostAccurateResult, subTitle: "Take a photo of the \(mostAccurateResult)and save it to your list of memories?", circleIconImage: alertViewIcon)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // called when user presses "Use Photo"
         if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            print("picked image")
+            let newMemory = Memory(objectName: mostAccurateResult, imageOfObject: userPickedImage)
+            
+            // passed data to MemoriesTableViewController
+            let navController = self.tabBarController!.viewControllers![1] as! UINavigationController
+            let vc = navController.topViewController as! MemoriesTableViewController
+            vc.memoriesArray.append(newMemory)
+
         }
         imagePicker.dismiss(animated: true, completion: nil)
     }

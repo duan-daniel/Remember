@@ -11,7 +11,7 @@ import UIKit
 
 class Memory {
     var objectName: String
-    var imageOfObject: UIImage
+    var image: UIImage
     
     init(objectName: String, imageOfObject: UIImage) {
         self.objectName = objectName

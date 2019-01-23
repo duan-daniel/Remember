@@ -1,22 +1,16 @@
 PODS:
-  - ChameleonFramework (2.1.0):
-    - ChameleonFramework/Default (= 2.1.0)
-  - ChameleonFramework/Default (2.1.0)
   - SCLAlertView (0.8)
 
 DEPENDENCIES:
-  - ChameleonFramework
   - SCLAlertView
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - ChameleonFramework
     - SCLAlertView
 
 SPEC CHECKSUMS:
-  ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   SCLAlertView: 6a77bb2edfc65e04dbe57725546cb4107a506b85
 
-PODFILE CHECKSUM: 8a6fbe02aee4d2c3b9676139941a71ec8e9bbdf2
+PODFILE CHECKSUM: a1cc2e3912197c1a8c5b428dba66510bc358fc06
 
 COCOAPODS: 1.5.3
