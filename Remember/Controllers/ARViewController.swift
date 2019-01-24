@@ -22,11 +22,17 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
     
     @IBOutlet var sceneView: ARSCNView!
     
-    // CoreML variables
+    // COREML VARIABLES
     var mostAccurateResult = ""
     let serialQueue = DispatchQueue(label: "serialQueue")
     var requests = [VNRequest]()
     var location3D: ARHitTestResult?
+    
+    // SUS VARIABLES
+    // i don't know why these are here but if they aren't the app crashes
+    var didRename = false
+    var filler = ""
+
     
     let imagePicker = UIImagePickerController()
     
@@ -159,6 +165,9 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
     
     //MARK: - SCLALERTVIEW FUNCTIONALITY
     func createAlertView() {
+        
+        var objName = ""
+        
         let apperance = SCLAlertView.SCLAppearance(
             kDefaultShadowOpacity: 0.2,
             showCloseButton: false,
@@ -174,7 +183,10 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         
         alert.addButton("Rename") {
             if txt.text != nil && txt.text != "" {
+                self.didRename = true
                 self.mostAccurateResult = txt.text!
+                self.filler = txt.text!
+                objName = txt.text!
                 alertViewResponder!.setTitle(self.mostAccurateResult)
                 alertViewResponder!.setSubTitle("Take a photo of the \(self.mostAccurateResult)and save it to your list of memories?")
                 // remove the current 3D text
@@ -183,25 +195,33 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
                 }
                 // replace it with the updated most accurate result
                 self.create3DText(at: self.location3D!)
-                
             }
         }
+
         alert.addButton("Take Photo") {
+            print("objectName is: \(objName)")
+            self.mostAccurateResult = objName
             self.present(self.imagePicker, animated: true, completion: nil)
             alertViewResponder!.close()
+            print("most accurate result is: \(self.mostAccurateResult)")
         }
         alert.addButton("Cancel") {
             alertViewResponder!.close()
         }
-        
         alertViewResponder = alert.showInfo(mostAccurateResult, subTitle: "Take a photo of the \(mostAccurateResult)and save it to your list of memories?", circleIconImage: alertViewIcon)
+        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // called when user presses "Use Photo"
+        print("filler global variable is: \(filler)")
+        if didRename == true {
+            mostAccurateResult = filler
+            didRename = false
+        }
         if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             let newMemory = Memory(objectName: mostAccurateResult, imageOfObject: userPickedImage)
-            
+            print("newMemory name: \(newMemory.objectName)")
             // passed data to MemoriesTableViewController
             let navController = self.tabBarController!.viewControllers![1] as! UINavigationController
             let vc = navController.topViewController as! MemoriesTableViewController
