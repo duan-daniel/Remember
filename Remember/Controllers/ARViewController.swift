@@ -26,6 +26,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
     var mostAccurateResult = ""
     let serialQueue = DispatchQueue(label: "serialQueue")
     var requests = [VNRequest]()
+    var location3D: ARHitTestResult?
     
     let imagePicker = UIImagePickerController()
     
@@ -108,8 +109,12 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
             let results = sceneView.hitTest(touchLocation, types: .featurePoint)
             
             if let hitResult = results.first {
+                location3D = hitResult
                 // delete all previous nodes before creating the new textNode
-                create3DText(at: hitResult)
+                sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
+                    node.removeFromParentNode()
+                }
+                create3DText(at: location3D!)
                 // create the alert pop up
                 createAlertView()
             }
@@ -157,17 +162,39 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         let apperance = SCLAlertView.SCLAppearance(
             kDefaultShadowOpacity: 0.2,
             showCloseButton: false,
-            showCircularIcon: true
+            showCircularIcon: true,
+            shouldAutoDismiss: false
         )
+        var alertViewResponder: SCLAlertViewResponder? = nil
+        
         let alert = SCLAlertView(appearance: apperance)
         let alertViewIcon = UIImage(named: "camera_icon")
+        
+        let txt = alert.addTextField("Rename the object?")
+        
+        alert.addButton("Rename") {
+            if txt.text != nil && txt.text != "" {
+                self.mostAccurateResult = txt.text!
+                alertViewResponder!.setTitle(self.mostAccurateResult)
+                alertViewResponder!.setSubTitle("Take a photo of the \(self.mostAccurateResult)and save it to your list of memories?")
+                // remove the current 3D text
+                self.sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
+                    node.removeFromParentNode()
+                }
+                // replace it with the updated most accurate result
+                self.create3DText(at: self.location3D!)
+                
+            }
+        }
         alert.addButton("Take Photo") {
             self.present(self.imagePicker, animated: true, completion: nil)
+            alertViewResponder!.close()
         }
         alert.addButton("Cancel") {
-            print("cancel button tapped")
+            alertViewResponder!.close()
         }
-        alert.showInfo(mostAccurateResult, subTitle: "Take a photo of the \(mostAccurateResult)and save it to your list of memories?", circleIconImage: alertViewIcon)
+        
+        alertViewResponder = alert.showInfo(mostAccurateResult, subTitle: "Take a photo of the \(mostAccurateResult)and save it to your list of memories?", circleIconImage: alertViewIcon)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
