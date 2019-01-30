@@ -188,7 +188,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
                 self.filler = txt.text!
                 objName = txt.text!
                 alertViewResponder!.setTitle(self.mostAccurateResult)
-                alertViewResponder!.setSubTitle("Take a photo of the \(self.mostAccurateResult)and save it to your list of memories?")
+                alertViewResponder!.setSubTitle("Take a photo of the \(self.mostAccurateResult) and save it to your list of memories?")
                 // remove the current 3D text
                 self.sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
                     node.removeFromParentNode()
@@ -219,7 +219,9 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
             mostAccurateResult = filler
             didRename = false
         }
+        print(mostAccurateResult)
         if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            
             let newMemory = Memory(objectName: mostAccurateResult, imageOfObject: userPickedImage)
             print("newMemory name: \(newMemory.objectName)")
             // passed data to MemoriesTableViewController

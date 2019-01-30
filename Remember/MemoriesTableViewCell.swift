@@ -12,5 +12,6 @@ class MemoriesTableViewCell: UITableViewCell {
     @IBOutlet weak var imageOfObject: UIImageView!
     @IBOutlet weak var nameOfObject: UILabel!
     @IBOutlet weak var dateLastVisited: UILabel!
+    @IBOutlet weak var viewOfContent: UIView!
     
 }

@@ -14,7 +14,8 @@ class MemoriesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        tableView.rowHeight = 140
+        tableView.separatorStyle = .none
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -33,7 +34,11 @@ class MemoriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "memoryCell", for: indexPath) as! MemoriesTableViewCell
         let memory = memoriesArray[indexPath.row]
+        
+        cell.imageOfObject.layer.cornerRadius = 10
+        cell.imageOfObject.clipsToBounds = true
         cell.imageOfObject.image = memory.image
+    
         cell.nameOfObject.text = memory.objectName
         
         let formatter : DateFormatter = DateFormatter()
@@ -42,9 +47,28 @@ class MemoriesTableViewController: UITableViewController {
         
         cell.dateLastVisited.text = dateStr
         
+        cell.viewOfContent.layer.cornerRadius = 10
+        cell.viewOfContent.layer.masksToBounds = true
+        
         return cell
         
         
+    }
+
+    func makeRoundedImage(image: UIImage, radius: Float) -> UIImage {
+        var imageLayer = CALayer()
+        imageLayer.frame = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
+        imageLayer.contents = image.cgImage
+        
+        imageLayer.masksToBounds = true
+        imageLayer.cornerRadius = CGFloat(radius)
+        
+        UIGraphicsBeginImageContext(image.size)
+        imageLayer.render(in: UIGraphicsGetCurrentContext()!)
+        var roundedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return roundedImage!
     }
  
     // MARK: - Navigation
