@@ -23,7 +23,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
     @IBOutlet var sceneView: ARSCNView!
     
     // COREML VARIABLES
-    var mostAccurateResult = ""
+    var mostAccuratePrediction = ""
     let serialQueue = DispatchQueue(label: "serialQueue")
     var requests = [VNRequest]()
     var location3D: ARHitTestResult?
@@ -31,7 +31,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
     // SUS VARIABLES
     // i don't know why these are here but if they aren't the app crashes
     var didRename = false
-    var filler = ""
+    var chosenObject = ""
 
     
     let imagePicker = UIImagePickerController()
@@ -80,7 +80,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         DispatchQueue.main.async {
             var object = predictions.components(separatedBy: "-")[0]
             object = object.components(separatedBy: ",")[0]
-            self.mostAccurateResult = object
+            self.mostAccuratePrediction = object
         }
         
     }
@@ -135,7 +135,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         billboardConstraint.freeAxes = SCNBillboardAxis.Y
         
         // TEXT GEOMETRY
-        let textGeometry = SCNText(string: mostAccurateResult, extrusionDepth: 0.01)
+        let textGeometry = SCNText(string: mostAccuratePrediction, extrusionDepth: 0.01)
         var font = UIFont(name: "Futura", size: 0.15)
         // font = font?.bold()
         textGeometry.font = font
@@ -161,6 +161,8 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
             hitResult.worldTransform.columns.3.y,
             hitResult.worldTransform.columns.3.z
         )
+        
+        chosenObject = mostAccuratePrediction
     }
     
     //MARK: - SCLALERTVIEW FUNCTIONALITY
@@ -183,12 +185,11 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         
         alert.addButton("Rename") {
             if txt.text != nil && txt.text != "" {
-                self.didRename = true
-                self.mostAccurateResult = txt.text!
-                self.filler = txt.text!
-                objName = txt.text!
-                alertViewResponder!.setTitle(self.mostAccurateResult)
-                alertViewResponder!.setSubTitle("Take a photo of the \(self.mostAccurateResult) and save it to your list of memories?")
+                self.mostAccuratePrediction = txt.text!
+                self.chosenObject = txt.text!
+                
+                alertViewResponder!.setTitle(self.mostAccuratePrediction)
+                alertViewResponder!.setSubTitle("Take a photo of the \(self.mostAccuratePrediction) and save it to your list of memories?")
                 // remove the current 3D text
                 self.sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
                     node.removeFromParentNode()
@@ -199,37 +200,32 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         }
 
         alert.addButton("Take Photo") {
-            print("objectName is: \(objName)")
-            self.mostAccurateResult = objName
+
             self.present(self.imagePicker, animated: true, completion: nil)
             alertViewResponder!.close()
-            print("most accurate result is: \(self.mostAccurateResult)")
         }
         alert.addButton("Cancel") {
             alertViewResponder!.close()
         }
-        alertViewResponder = alert.showInfo(mostAccurateResult, subTitle: "Take a photo of the \(mostAccurateResult)and save it to your list of memories?", circleIconImage: alertViewIcon)
+        alertViewResponder = alert.showInfo(mostAccuratePrediction, subTitle: "Take a photo of the \(mostAccuratePrediction) and save it to your list of memories?", circleIconImage: alertViewIcon)
         
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // called when user presses "Use Photo"
-        print("filler global variable is: \(filler)")
-        if didRename == true {
-            mostAccurateResult = filler
-            didRename = false
-        }
-        print(mostAccurateResult)
+
         if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             
-            let newMemory = Memory(objectName: mostAccurateResult, imageOfObject: userPickedImage)
-            print("newMemory name: \(newMemory.objectName)")
+            let newMemory = Memory(objectName: chosenObject, imageOfObject: userPickedImage)
             // passed data to MemoriesTableViewController
             let navController = self.tabBarController!.viewControllers![1] as! UINavigationController
             let vc = navController.topViewController as! MemoriesTableViewController
             vc.memoriesArray.append(newMemory)
 
         }
+        // reset the most accurate result
+        mostAccuratePrediction = ""
+        chosenObject = ""
         imagePicker.dismiss(animated: true, completion: nil)
     }
     
@@ -251,6 +247,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         //TODO: Alert the user that their phone cannot support a true AR experience.
         
     }
+
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)

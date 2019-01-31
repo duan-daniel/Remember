@@ -14,7 +14,7 @@ class MemoriesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = 140
+        tableView.rowHeight = 152
         tableView.separatorStyle = .none
     }
     

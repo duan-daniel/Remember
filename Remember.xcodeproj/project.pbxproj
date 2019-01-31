@@ -10,6 +10,7 @@
 		88BE2E6F04064649A5547F44 /* Pods_Remember.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF8893B2BC467E11A0E6CA1 /* Pods_Remember.framework */; };
 		A453ED1D21ED9ED400C40662 /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A453ED1C21ED9ED400C40662 /* Memory.swift */; };
 		A466F412220187C300E19E99 /* MemoriesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A466F411220187C300E19E99 /* MemoriesTableView.swift */; };
+		A4844F942202E06000E41EB4 /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4844F932202E06000E41EB4 /* DescriptionViewController.swift */; };
 		A492DD9721E469A4005C45D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A492DD9621E469A4005C45D6 /* AppDelegate.swift */; };
 		A492DD9921E469A4005C45D6 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = A492DD9821E469A4005C45D6 /* art.scnassets */; };
 		A492DD9B21E469A4005C45D6 /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A492DD9A21E469A4005C45D6 /* ARViewController.swift */; };
@@ -25,6 +26,7 @@
 		74F3501E512834770061ED49 /* Pods-Remember.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Remember.release.xcconfig"; path = "Pods/Target Support Files/Pods-Remember/Pods-Remember.release.xcconfig"; sourceTree = "<group>"; };
 		A453ED1C21ED9ED400C40662 /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		A466F411220187C300E19E99 /* MemoriesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesTableView.swift; sourceTree = "<group>"; };
+		A4844F932202E06000E41EB4 /* DescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionViewController.swift; sourceTree = "<group>"; };
 		A492DD9321E469A4005C45D6 /* Remember.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Remember.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A492DD9621E469A4005C45D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A492DD9821E469A4005C45D6 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			children = (
 				A492DD9A21E469A4005C45D6 /* ARViewController.swift */,
 				A4AFD00621F4419F00439CDD /* MemoriesTableViewController.swift */,
+				A4844F932202E06000E41EB4 /* DescriptionViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4844F942202E06000E41EB4 /* DescriptionViewController.swift in Sources */,
 				A4FC741D21F6489F0017D475 /* MemoriesTableViewCell.swift in Sources */,
 				A492DD9B21E469A4005C45D6 /* ARViewController.swift in Sources */,
 				A4F2E20A21E4711A00B09FDB /* Inceptionv3.mlmodel in Sources */,
