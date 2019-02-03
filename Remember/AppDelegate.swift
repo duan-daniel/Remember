@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import IQKeyboardManager
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,7 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         UITabBar.appearance().barTintColor = .black
         UITabBar.appearance().tintColor = .white
-        // UITabBar.appearance().unselectedItemTintColor 
+        // UITabBar.appearance().unselectedItemTintColor
+        IQKeyboardManager.shared().isEnabled = true
         return true
     }
 

@@ -12,9 +12,11 @@ import UIKit
 class Memory {
     var objectName: String
     var image: UIImage
+    var description: String
     
-    init(objectName: String, imageOfObject: UIImage) {
+    init(objectName: String, imageOfObject: UIImage, description: String) {
         self.objectName = objectName
         self.image = imageOfObject
+        self.description = description
     }
 }

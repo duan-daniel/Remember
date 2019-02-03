@@ -216,7 +216,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
 
         if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             
-            let newMemory = Memory(objectName: chosenObject, imageOfObject: userPickedImage)
+            let newMemory = Memory(objectName: chosenObject, imageOfObject: userPickedImage, description: "")
             // passed data to MemoriesTableViewController
             let navController = self.tabBarController!.viewControllers![1] as! UINavigationController
             let vc = navController.topViewController as! MemoriesTableViewController
