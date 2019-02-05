@@ -8,15 +8,11 @@
 
 import Foundation
 import UIKit
+import RealmSwift
 
-class Memory {
-    var objectName: String
-    var image: UIImage
-    var description: String
+class Memory: Object {
+    @objc dynamic var objectName: String = ""
+    @objc dynamic var image: NSData = NSData()
+    @objc dynamic var desc: String = ""
     
-    init(objectName: String, imageOfObject: UIImage, description: String) {
-        self.objectName = objectName
-        self.image = imageOfObject
-        self.description = description
-    }
 }

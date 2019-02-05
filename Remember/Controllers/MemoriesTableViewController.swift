@@ -6,20 +6,30 @@
 //  Copyright © 2019 Daniel Duan. All rights reserved.
 //
 
+//TODO: Remove navigation bar while scrolling
+//TODO: Add Search Bar
 import UIKit
+import RealmSwift
 
 class MemoriesTableViewController: UITableViewController {
 
-    var memoriesArray = [Memory]()
+    var memoriesArray: Results<Memory>?
+    
+    let realm = try! Realm()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadMemories()
         tableView.rowHeight = 152
         tableView.separatorStyle = .none
     }
     
+    func loadMemories() {
+        memoriesArray = realm.objects(Memory.self)
+        tableView.reloadData()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
-        print("view did appear gets called")
         tableView.reloadData()
     }
 
@@ -27,19 +37,19 @@ class MemoriesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return memoriesArray.count
+        return memoriesArray?.count ?? 0
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "memoryCell", for: indexPath) as! MemoriesTableViewCell
-        let memory = memoriesArray[indexPath.row]
+        let memory = memoriesArray?[indexPath.row]
         
         cell.imageOfObject.layer.cornerRadius = 10
         cell.imageOfObject.clipsToBounds = true
-        cell.imageOfObject.image = memory.image
+        cell.imageOfObject.image = UIImage(data: memory?.image as! Data)
     
-        cell.nameOfObject.text = memory.objectName
+        cell.nameOfObject.text = memory?.objectName
         
         let formatter : DateFormatter = DateFormatter()
         formatter.dateFormat = "MM/dd/yy"
@@ -80,7 +90,7 @@ class MemoriesTableViewController: UITableViewController {
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
             let destination = segue.destination as! DescriptionViewController
             
-            let memoryToDisplay = memoriesArray[indexPath.row]
+            let memoryToDisplay = memoriesArray?[indexPath.row]
             destination.memory = memoryToDisplay
 
         }

@@ -21,7 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().tintColor = .white
         // UITabBar.appearance().unselectedItemTintColor
         IQKeyboardManager.shared().isEnabled = true
+        
         return true
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

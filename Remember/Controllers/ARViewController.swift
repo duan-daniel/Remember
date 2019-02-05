@@ -18,6 +18,9 @@ import Vision
 // SCLALERTVIEW
 import SCLAlertView
 
+// REALM
+import RealmSwift
+
 class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet var sceneView: ARSCNView!
@@ -28,12 +31,14 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
     var requests = [VNRequest]()
     var location3D: ARHitTestResult?
     
-    // SUS VARIABLES
-    // i don't know why these are here but if they aren't the app crashes
+    // STOOPID VARIABLES
     var didRename = false
     var chosenObject = ""
-
     
+    // REALM VARIABLES
+    let realm = try! Realm()
+    
+    // IMAGEPICKER
     let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
@@ -215,18 +220,37 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         // called when user presses "Use Photo"
 
         if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            let imageData: NSData = userPickedImage.jpegData(compressionQuality: 1.0)! as NSData
+            let newMemory = Memory()
+            newMemory.objectName = chosenObject
+            newMemory.image = imageData
+            newMemory.desc = ""
             
-            let newMemory = Memory(objectName: chosenObject, imageOfObject: userPickedImage, description: "")
             // passed data to MemoriesTableViewController
             let navController = self.tabBarController!.viewControllers![1] as! UINavigationController
             let vc = navController.topViewController as! MemoriesTableViewController
-            vc.memoriesArray.append(newMemory)
+            
+            // realm will simply autoupdate
+            // vc.memoriesArray.append(newMemory)
+            
+            saveMemories(mem: newMemory)
 
         }
         // reset the most accurate result
         mostAccuratePrediction = ""
         chosenObject = ""
         imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
+    //MARK: - DATA MANIPULATION
+    func saveMemories(mem: Memory) {
+        do {
+            try realm.write {
+                realm.add(mem)
+            }
+        } catch {
+            print("Error saving cateogry \(error)")
+        }
     }
     
     //MARK: - SEGUE

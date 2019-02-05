@@ -1,20 +1,30 @@
 PODS:
   - IQKeyboardManager (6.2.0)
+  - Realm (3.13.1):
+    - Realm/Headers (= 3.13.1)
+  - Realm/Headers (3.13.1)
+  - RealmSwift (3.13.1):
+    - Realm (= 3.13.1)
   - SCLAlertView (0.8)
 
 DEPENDENCIES:
   - IQKeyboardManager
+  - RealmSwift
   - SCLAlertView
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - IQKeyboardManager
+    - Realm
+    - RealmSwift
     - SCLAlertView
 
 SPEC CHECKSUMS:
   IQKeyboardManager: 6194101620b73af5e67900b8f89707a99de0b804
+  Realm: 50071da38fe079e0735e47c9f2eae738c68c5996
+  RealmSwift: 8a1e6a02b7a08cd17a31e3115143fb69fe5f3fb9
   SCLAlertView: 6a77bb2edfc65e04dbe57725546cb4107a506b85
 
-PODFILE CHECKSUM: 961482319a83f08bbeaa896f90da8d0ac8a25b3a
+PODFILE CHECKSUM: 8f63f0b423947edcfe845e04a4a9f68a97c74d84
 
 COCOAPODS: 1.5.3

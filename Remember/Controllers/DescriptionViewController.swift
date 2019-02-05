@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class DescriptionViewController: UIViewController, UITextViewDelegate {
     
@@ -15,6 +16,8 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
     
     var memory: Memory!
     var receivedImage: UIImage!
+    
+    let realm = try! Realm()
     
     //MARK: - SetUp Functions
     override func viewDidLoad() {
@@ -27,8 +30,8 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
 
         // connect outlet's to memory's properties
         self.navigationItem.title = memory.objectName
-        image.image = memory.image
-        descriptionTextView.text = memory.description
+        image.image = UIImage(data: memory?.image as! Data)
+        descriptionTextView.text = memory.desc
         
         // round the image
         image.layer.cornerRadius = 20
@@ -64,8 +67,15 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
             textView.text = "Write a description..."
             textView.textColor = UIColor.lightGray
         }
+        // save it to realm database
         else {
-            memory.description = textView.text
+            do {
+                try realm.write {
+                    memory.desc = textView.text
+                }
+            } catch {
+                print("Error \(error)")
+            }
         }
     }
     
