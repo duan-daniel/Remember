@@ -7,21 +7,25 @@
 //
 
 //TODO: Remove navigation bar while scrolling
-//TODO: Add Search Bar
 import UIKit
 import RealmSwift
+import StatefulViewController
 
-class MemoriesTableViewController: UITableViewController {
+class MemoriesTableViewController: UITableViewController, StatefulViewController {
 
     var memoriesArray: Results<Memory>?
     
     let realm = try! Realm()
+    
+    let emptyStateView = UIView()
+    let noStateView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadMemories()
         tableView.rowHeight = 152
         tableView.separatorStyle = .none
+        
     }
     
     func loadMemories() {
@@ -30,7 +34,33 @@ class MemoriesTableViewController: UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        // set up empty data set
+        createEmptyView()
+        
+        let stateMachine = ViewStateMachine(view: view)
+        stateMachine["empty"] = emptyStateView
+        stateMachine["none"] = noStateView
+        
+        if memoriesArray != nil && memoriesArray!.count > 0 {
+            stateMachine.transitionToState(.view("none"), animated: true) {
+            }
+        }
+        else {
+            stateMachine.transitionToState(.view("empty"), animated: true) {
+            }
+        }
+        
         tableView.reloadData()
+
+    }
+    
+    func createEmptyView() {
+        let emptyStateLabel = UILabel()
+        emptyStateLabel.frame = CGRect(x: 0, y: 200, width: self.view.frame.width, height: 120)
+        emptyStateLabel.text = "No Memories Yet!"
+        emptyStateLabel.textAlignment = .center
+        
+        emptyStateView.addSubview(emptyStateLabel)
     }
 
     // MARK: - Table view data source
@@ -63,22 +93,6 @@ class MemoriesTableViewController: UITableViewController {
         return cell
         
         
-    }
-
-    func makeRoundedImage(image: UIImage, radius: Float) -> UIImage {
-        var imageLayer = CALayer()
-        imageLayer.frame = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
-        imageLayer.contents = image.cgImage
-        
-        imageLayer.masksToBounds = true
-        imageLayer.cornerRadius = CGFloat(radius)
-        
-        UIGraphicsBeginImageContext(image.size)
-        imageLayer.render(in: UIGraphicsGetCurrentContext()!)
-        var roundedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return roundedImage!
     }
  
     // MARK: - Navigation

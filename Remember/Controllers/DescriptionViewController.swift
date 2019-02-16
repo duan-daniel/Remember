@@ -68,15 +68,14 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
             textView.textColor = UIColor.lightGray
         }
         // save it to realm database
-        else {
-            do {
-                try realm.write {
-                    memory.desc = textView.text
-                }
-            } catch {
-                print("Error \(error)")
+        do {
+            try realm.write {
+                memory.desc = textView.text
             }
+        } catch {
+            print("Error \(error)")
         }
+        
     }
     
     @objc func doneClicked() {

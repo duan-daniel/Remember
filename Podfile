@@ -8,6 +8,6 @@ target 'Remember' do
     pod 'SCLAlertView'
     pod 'IQKeyboardManager'
     pod 'RealmSwift'
-
+    pod "StatefulViewController", "~> 3.0"
 
 end

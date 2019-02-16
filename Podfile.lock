@@ -6,11 +6,13 @@ PODS:
   - RealmSwift (3.13.1):
     - Realm (= 3.13.1)
   - SCLAlertView (0.8)
+  - StatefulViewController (3.0)
 
 DEPENDENCIES:
   - IQKeyboardManager
   - RealmSwift
   - SCLAlertView
+  - StatefulViewController (~> 3.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -18,13 +20,15 @@ SPEC REPOS:
     - Realm
     - RealmSwift
     - SCLAlertView
+    - StatefulViewController
 
 SPEC CHECKSUMS:
   IQKeyboardManager: 6194101620b73af5e67900b8f89707a99de0b804
   Realm: 50071da38fe079e0735e47c9f2eae738c68c5996
   RealmSwift: 8a1e6a02b7a08cd17a31e3115143fb69fe5f3fb9
   SCLAlertView: 6a77bb2edfc65e04dbe57725546cb4107a506b85
+  StatefulViewController: 4803bf900d44de26074344998e10e041113b5931
 
-PODFILE CHECKSUM: 8f63f0b423947edcfe845e04a4a9f68a97c74d84
+PODFILE CHECKSUM: aaa1230b53241d45afa9712e57cb2330a0e5abb0
 
 COCOAPODS: 1.5.3
