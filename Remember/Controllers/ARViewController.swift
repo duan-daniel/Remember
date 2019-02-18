@@ -267,9 +267,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, UIImagePickerContro
         
         // Run the view's session
         sceneView.session.run(configuration)
-        
-        //TODO: Alert the user that their phone cannot support a true AR experience.
-        
+                
     }
 
     
